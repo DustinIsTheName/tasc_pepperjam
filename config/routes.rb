@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+
+  post 'order-update' => 'webhooks#order_update'
+  post 'order-cancellation' => 'webhooks#order_cancellation'
+  get 'feed' => 'feed#collection'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
