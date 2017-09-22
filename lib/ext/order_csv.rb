@@ -8,7 +8,7 @@ class Order_CSV
 			discount_codes = params["discount_codes"] ? params["discount_codes"].join('|') : ""
 
 		  params["line_items"].each do |line_item|
-		    writer << ["8671", params["id"], line_item["id"], line_item["price"], line_item["quantity"], discount_codes]
+		    writer << ["8671", params["number"], line_item["sku"], line_item["price"].to_i * line_item["quantity"], line_item["quantity"], discount_codes]
 		  end
 		end
 
@@ -26,7 +26,7 @@ class Order_CSV
 			discount_codes = params["discount_codes"] ? params["discount_codes"].join('|') : ""
 
 		  params["line_items"].each do |line_item|
-		    writer << ["8671", params["id"], line_item["id"], 0, 0, discount_codes]
+		    writer << ["8671", params["number"], line_item["sku"], 0, 0, discount_codes]
 		  end
 		end
 
