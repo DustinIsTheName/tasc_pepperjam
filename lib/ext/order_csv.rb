@@ -39,7 +39,7 @@ class Order_CSV
 
 		csv_string = CSV.generate do |writer|
 			writer << ["PROGRAM_ID","ORDER_ID","ITEM_ID","ITEM_PRICE","QUANTITY","COUPON"]
-			orders_to_upload = Order.where("created_at >= ? and uploaded == ?", (Date.current - 1).beginning_of_day, false)
+			orders_to_upload = Order.where("created_at >= ? and uploaded = ?", (Date.current - 1).beginning_of_day, false)
 
 			if orders_to_upload.size > 0
 			  orders_to_upload.each do |order|
