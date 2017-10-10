@@ -70,10 +70,10 @@ class Order_CSV
 
 			puts Colorize.magenta('before connection')
 
-			ftp = Net::FTP.new('72.47.244.117', 'ftp@sevenfiguresavings.com', 'Sate!1ite')
-			ftp.chdir('/')
-			# ftp = Net::FTP.new('ftp.affiliatetraction.com', 'tasc_catalog', '?3rF0rM@nce')
-			# ftp.chdir('/correction')
+			# ftp = Net::FTP.new('72.47.244.117', 'ftp@sevenfiguresavings.com', 'Sate!1ite')
+			# ftp.chdir('/')
+			ftp = Net::FTP.new('ftp.affiliatetraction.com', 'tasc_catalog', '?3rF0rM@nce')
+			ftp.chdir('/correction')
 			ftp.passive = true
 			ftp.putbinaryfile(csv_file.path, csv_filename)
 
