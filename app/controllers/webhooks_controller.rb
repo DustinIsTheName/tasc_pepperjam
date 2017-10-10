@@ -6,29 +6,7 @@ class WebhooksController < ApplicationController
 		verified = verify_webhook(request.body.read, request.headers["HTTP_X_SHOPIFY_HMAC_SHA256"])
 
 		if verified
-			csv_file = Order_CSV.create(params)
-			csv_filename = Order_CSV.filename
-
-			csv_file.close
-
-			# ftp = Net::FTP.new('ftp.affiliatetraction.com', 'tasc_catalog', '?3rF0rM@nce')
-			# ftp = Net::FTP.new('72.47.244.117', 'ftp@sevenfiguresavings.com', 'Sate!1ite')
-			# ftp.chdir('/')
-			# ftp.passive = true
-			# ftp.putbinaryfile(csv_file.path, csv_filename)
-
-			# ftp.close
-
-			puts Colorize.magenta('before connection')
-
-			ftp = Net::FTP.new('ftp.affiliatetraction.com', 'tasc_catalog', '?3rF0rM@nce')
-			ftp.chdir('/correction')
-			ftp.passive = true
-			ftp.putbinaryfile(csv_file.path, csv_filename)
-
-			ftp.close
-
-			puts Colorize.cyan('after connection')
+			Order_CSV.save_update(params)
 		end
 
 		head :ok, content_type: "text/html"
@@ -38,21 +16,7 @@ class WebhooksController < ApplicationController
 		verified = verify_webhook(request.body.read, request.headers["HTTP_X_SHOPIFY_HMAC_SHA256"])
 
 		if verified
-			csv_file = Order_CSV.cancel(params)
-			csv_filename = Order_CSV.filename
-
-			csv_file.close
-
-			puts Colorize.magenta('before connection')
-
-			ftp = Net::FTP.new('ftp.affiliatetraction.com', 'tasc_catalog', '?3rF0rM@nce')
-			ftp.chdir('/correction')
-			ftp.passive = true
-			ftp.putbinaryfile(csv_file.path, csv_filename)
-
-			ftp.close
-
-			puts Colorize.cyan('after connection')
+			Order_CSV.save_cancel(params)
 		end
 
 		head :ok, content_type: "text/html"
