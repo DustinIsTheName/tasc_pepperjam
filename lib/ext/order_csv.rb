@@ -1,7 +1,7 @@
 class Order_CSV
 
 	def self.save_update(params)
-		discount_codes = params["discount_codes"] ? params["discount_codes"].join('|') : ""
+		discount_codes = params["discount_codes"] ? params["discount_codes"].map{|x| x["code"]}.join('|') : ""
 
 	  params["line_items"].each do |line_item|
 	  	order = Order.new
@@ -18,7 +18,7 @@ class Order_CSV
 	end
 
 	def self.save_cancel(params)
-		discount_codes = params["discount_codes"] ? params["discount_codes"].join('|') : ""
+		discount_codes = params["discount_codes"] ? params["discount_codes"].map{|x| x["code"]}.join('|') : ""
 
 	  params["line_items"].each do |line_item|
 	  	order = Order.new
