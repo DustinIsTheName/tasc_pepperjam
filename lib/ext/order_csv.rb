@@ -86,7 +86,7 @@ class Order_CSV
 
 			# ftp = Net::FTP.new('72.47.244.117', 'ftp@sevenfiguresavings.com', 'Sate!1ite')
 			# ftp.chdir('/')
-			ftp = Net::FTP.new('ftp.affiliatetraction.com', 'tasc_catalog', '?3rF0rM@nce')
+			ftp = Net::FTP.new('ftp.affiliatetraction.com', 'tasc_catalog', 'P3rf0MaNc3')
 			ftp.chdir('/correction')
 			ftp.passive = true
 			ftp.putbinaryfile(csv_file.path, csv_filename)
