@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171010151420) do
+ActiveRecord::Schema.define(version: 20191007170619) do
+
+  create_table "collections", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "orders", force: :cascade do |t|
     t.string   "program_id"
@@ -24,5 +31,56 @@ ActiveRecord::Schema.define(version: 20171010151420) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "products", force: :cascade do |t|
+    t.integer  "shopify_id"
+    t.string   "title"
+    t.text     "description"
+    t.string   "vendor"
+    t.text     "tags"
+    t.string   "type"
+    t.text     "options"
+    t.string   "featured_image"
+    t.string   "title_tag"
+    t.text     "description_tag"
+    t.string   "google_product_type"
+    t.string   "age_group"
+    t.string   "custom_label_0"
+    t.string   "custom_label_1"
+    t.string   "custom_label_2"
+    t.string   "custom_label_3"
+    t.string   "custom_label_4"
+    t.integer  "collection_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "products", ["shopify_id"], name: "index_products_on_shopify_id", unique: true
+
+  create_table "shops", force: :cascade do |t|
+    t.string   "name"
+    t.string   "url"
+    t.string   "currency"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "variants", force: :cascade do |t|
+    t.integer  "shopify_id"
+    t.string   "url"
+    t.text     "options"
+    t.string   "price"
+    t.boolean  "available"
+    t.string   "image_src"
+    t.string   "barcode"
+    t.string   "sku"
+    t.string   "weight"
+    t.string   "weight_unit"
+    t.integer  "product_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "variants", ["shopify_id"], name: "index_variants_on_shopify_id", unique: true
 
 end
