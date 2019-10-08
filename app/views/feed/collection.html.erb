@@ -1,1 +1,91 @@
-<%= @response.html_safe %>
+<?xml version="1.0"?>
+<rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
+<% use_seo_title = false %>
+<% use_seo_description = false %>
+<% country_code = 'US' %>
+<% if @shop.currency == 'CAD' %>
+  <% country_code = 'CA' %>
+<% end %>
+<% color = "" %>
+<% size = "" %>
+<channel>
+<title><%= @shop.name %> <%= sanitize(@collection.title).gsub("\n", ' ').gsub("&", "&amp;") %></title>
+<link><%= @shop.url %></link>
+<description><%= sanitize(@collection.description).gsub("\n", ' ').gsub("&", "&amp;") %></description>
+
+<% for product in @products %>
+  <% google_product_category = product.google_product_type %>
+    
+  <% gender = "" %>
+  <% for tag in product.tags.split(',') %>
+    <% down_tag = tag.downcase %>
+    <% if down_tag.include? 'gender:' %>
+      <% if down_tag.include? 'mens' or down_tag.include? "men's" %>
+        <% gender = 'male' %>
+      <% end %>
+      <% if down_tag.include? 'womens' or down_tag.include? "women's" %>
+        <% gender = 'female' %>
+      <% end %>
+      <% if down_tag.include? 'unisex' %>
+        <% gender = 'unisex' %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% age_group = product.age_group %>
+   
+  <% for variant in product.variants %>
+    <% color = "" %>
+    <% size = "" %>
+    <% forloop_count = 0 %>
+    <% for option in product.options %>
+      <% down_option = option.downcase %>
+      <% if down_option == 'color' %>
+        <% color = variant.options[forloop_count] %>
+      <% elsif down_option == 'size' %>
+        <% size = variant.options[forloop_count] %>
+      <% end %>
+      <% forloop_count += 1 %>
+    <% end %>
+     
+    <% product_title = product.vendor + ' ' + product.title + ' ' + color %>
+    <% if use_seo_title and product.title_tag > 0 %>
+      <% product_title = product.title_tag %>
+    <% end %>
+    <% product_description = product.description %>
+    <% if use_seo_description and product.description_tag > 0 %>
+      <% product_description = product.description_tag %>
+    <% end %>
+     
+    <item>
+    <title><%= product_title.gsub("&", "&amp;") %></title>
+    <link><%= variant.url %></link>
+    <description><%= sanitize(product_description).gsub("\n", ' ').gsub("&", "&amp;") %></description>
+    <g:google_product_category><%= google_product_category&.gsub("&", "&amp;") %></g:google_product_category>
+    <g:item_group_id>shopify_<%= country_code %>_<%= product.shopify_id %></g:item_group_id>
+    <g:id>shopify_<%= country_code %>_<%= product.shopify_id %>_<%= variant.shopify_id %></g:id>
+    <g:condition>new</g:condition>
+    <g:price><%= variant.price %></g:price>
+    <g:availability><% if variant.available %>in stock<% else %>out of stock<% end %></g:availability>
+    <g:image_link>http:<% if variant.image_src %><%= variant.image_src %><% else %><%= product.featured_image %><% end %></g:image_link>
+    <g:gtin><%= variant.barcode %></g:gtin>
+    <g:brand><%= product.vendor %></g:brand>
+    <g:mpn><%= variant.sku %></g:mpn>
+    <g:product_type><%= product.shopify_type %></g:product_type>
+    <g:age_group><%= age_group %></g:age_group>
+    <%= sanitize(size).gsub("\n", ' ').gsub("&", "&amp;") %>
+    <% unless color == "" %><g:color><%= sanitize(color).gsub("\n", ' ').gsub("&", "&amp;") %></g:color><% end %>
+    <% unless size == "" %><g:size><%= sanitize(size).gsub("\n", ' ').gsub("&", "&amp;") %></g:size><g:size_system>US</g:size_system><% end %>
+    <g:gender><%= gender %></g:gender>
+    <g:custom_label_0><%= product.custom_label_0 %></g:custom_label_0>
+    <g:custom_label_1><%= product.custom_label_1 %></g:custom_label_1>
+    <g:custom_label_2><%= product.custom_label_2 %></g:custom_label_2>
+    <g:custom_label_3><%= product.custom_label_3 %></g:custom_label_3>
+    <g:custom_label_4><%= product.custom_label_4 %></g:custom_label_4>
+     
+    <g:shipping_weight><%= variant.weight %> <%= variant.weight_unit %></g:shipping_weight>
+    </item>
+   
+  <% end %>
+<% end %>
+</channel>
+</rss>
