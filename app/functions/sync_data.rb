@@ -121,4 +121,18 @@ class SyncData
 
   end
 
+  def self.render_xml
+    shop = Shop.first
+    collection = Collection.first
+    products = Product.all
+
+    xml_feed_content = ApplicationController.new.render_to_string(
+      :template => 'feed/collection',
+      :layout => false,
+      :locals => { :@shop => shop, :@collection => collection, :@products => products, }
+    )
+
+    File.open("public/xml_feed.xml", "w") { |file| file.write xml_feed_content }
+  end
+
 end

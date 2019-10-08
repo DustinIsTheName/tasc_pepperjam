@@ -1,8 +1,8 @@
 class FeedController < ApplicationController
 	layout false
 
-	def collection
-  	# @response = open("https://www.tascperformance.com/collections/xml-google-shopping-feed-all").read
+  def collection
+    # @response = open("https://www.tascperformance.com/collections/xml-google-shopping-feed-all").read
 
    #  @response = @response.gsub(/<head>(.|\n)*<\/head>/, '')
    #  @response = @response.gsub('<body>', '')
@@ -12,6 +12,6 @@ class FeedController < ApplicationController
     @collection = Collection.first
 
     @products = Product.all
-	end
+  end
 
 end
