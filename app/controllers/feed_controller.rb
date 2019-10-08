@@ -8,10 +8,12 @@ class FeedController < ApplicationController
    #  @response = @response.gsub('<body>', '')
    #  @response = @response.gsub('</body>', '')
 
-    @shop = Shop.first
-    @collection = Collection.first
+    # @shop = Shop.first
+    # @collection = Collection.first
 
-    @products = Product.all
+    # @products = Product.all
+
+    render :file => 'public/xml_feed.xml'
   end
 
 end
