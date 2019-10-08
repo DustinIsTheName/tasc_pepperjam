@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191007170619) do
+ActiveRecord::Schema.define(version: 20191008161323) do
 
   create_table "collections", force: :cascade do |t|
     t.string   "title"
@@ -33,12 +33,12 @@ ActiveRecord::Schema.define(version: 20191007170619) do
   end
 
   create_table "products", force: :cascade do |t|
-    t.integer  "shopify_id"
+    t.integer  "shopify_id",          limit: 8
     t.string   "title"
     t.text     "description"
     t.string   "vendor"
     t.text     "tags"
-    t.string   "type"
+    t.string   "shopify_type"
     t.text     "options"
     t.string   "featured_image"
     t.string   "title_tag"
@@ -51,8 +51,8 @@ ActiveRecord::Schema.define(version: 20191007170619) do
     t.string   "custom_label_3"
     t.string   "custom_label_4"
     t.integer  "collection_id"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   add_index "products", ["shopify_id"], name: "index_products_on_shopify_id", unique: true
@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 20191007170619) do
   end
 
   create_table "variants", force: :cascade do |t|
-    t.integer  "shopify_id"
+    t.integer  "shopify_id",  limit: 8
     t.string   "url"
     t.text     "options"
     t.string   "price"
@@ -77,8 +77,8 @@ ActiveRecord::Schema.define(version: 20191007170619) do
     t.string   "weight"
     t.string   "weight_unit"
     t.integer  "product_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
   add_index "variants", ["shopify_id"], name: "index_variants_on_shopify_id", unique: true
