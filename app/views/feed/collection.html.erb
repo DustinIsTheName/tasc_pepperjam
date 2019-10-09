@@ -72,7 +72,6 @@
     <g:mpn><%= variant.sku %></g:mpn>
     <g:product_type><%= product.shopify_type %></g:product_type>
     <g:age_group><%= age_group %></g:age_group>
-    <%= sanitize(size).gsub("\n", ' ').gsub("&", "&amp;") %>
     <% unless color == "" %><g:color><%= sanitize(color).gsub("\n", ' ').gsub("&", "&amp;") %></g:color><% end %>
     <% unless size == "" %><g:size><%= sanitize(size).gsub("\n", ' ').gsub("&", "&amp;") %></g:size><g:size_system>US</g:size_system><% end %>
     <g:gender><%= gender %></g:gender>
