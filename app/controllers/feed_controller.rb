@@ -13,9 +13,24 @@ class FeedController < ApplicationController
 
     @products = Product.all
 
-    render xml: @products.to_xml
+    # render xml: @products.to_xml
 
-    # render :file => 'public/xml_feed.xml'
+    # icount = 0 
+    # xmlfeed = Nokogiri::XML(open("public/xml_feed.xml"))
+    # items = xmlfeed.xpath("//item")
+    # items.each do |item|
+    #   text = item.children.children.first.text  
+    #   if ( text =~ /99/ )
+    #     icount += 1
+    #   end
+    # end
+
+    # othercount = xmlfeed.xpath("//totalcount").inner_text.to_i - icount 
+
+    # puts icount
+    # puts othercount
+
+    # render :xml => xmlfeed
   end
 
 end

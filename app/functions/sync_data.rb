@@ -71,48 +71,41 @@ class SyncData
 
         product.collection_id = collection.id
 
+        variants = []
+
+        for shopify_variant in shopify_product.variants
+
+          variant = {}
+
+          variant_options = []
+          if shopify_variant.option1
+            variant_options << shopify_variant.option1
+          end
+          if shopify_variant.option2
+            variant_options << shopify_variant.option2
+          end
+          if shopify_variant.option3
+            variant_options << shopify_variant.option3
+          end
+
+          variant["shopify_id"] = shopify_variant.id
+          variant["url"] = '/products/' + shopify_product.handle + '?variant=' + shopify_variant.id.to_s
+          variant["options"] = variant_options
+          variant["price"] = shopify_variant.price
+          variant["available"] = shopify_variant.inventory_policy == "continue" or shopify_variant.inventory_quantity > 0
+          variant["image_src"] = shopify_product.images.select{|i| i.id == shopify_variant.image_id}.first&.src
+          variant["barcode"] = shopify_variant.barcode
+          variant["sku"] = shopify_variant.sku
+          variant["weight"] = shopify_variant.weight
+          variant["weight_unit"] = shopify_variant.weight_unit
+
+          variants << variant
+        end
+
+        product.variants = variants
+
         if product.save
           puts Colorize.green "#{product.title} saved"
-
-          for shopify_variant in shopify_product.variants
-
-            if Variant.where(shopify_id: shopify_variant.id).present?
-              variant = Variant.where(shopify_id: shopify_variant.id).first
-            else
-              variant = Variant.new
-            end
-
-            variant_options = []
-            if shopify_variant.option1
-              variant_options << shopify_variant.option1
-            end
-            if shopify_variant.option2
-              variant_options << shopify_variant.option2
-            end
-            if shopify_variant.option3
-              variant_options << shopify_variant.option3
-            end
-
-            variant.shopify_id = shopify_variant.id
-            variant.url = '/products/' + shopify_product.handle + '?variant=' + shopify_variant.id.to_s
-            variant.options = variant_options
-            variant.price = shopify_variant.price
-            variant.available = shopify_variant.inventory_policy == "continue" or shopify_variant.inventory_quantity > 0
-            variant.image_src = shopify_product.images.select{|i| i.id == shopify_variant.image_id}.first&.src
-            variant.barcode = shopify_variant.barcode
-            variant.sku = shopify_variant.sku
-            variant.weight = shopify_variant.weight
-            variant.weight_unit = shopify_variant.weight_unit
-
-            variant.product_id = product.id
-
-            if variant.save
-              puts Colorize.green "#{variant.url} saved"
-            else
-              puts Colorize.red "#{variant.url} error"
-            end
-
-          end
         else
           puts Colorize.red "#{product.title} error"
         end

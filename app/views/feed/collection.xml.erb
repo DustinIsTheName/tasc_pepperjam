@@ -40,9 +40,9 @@
     <% for option in product.options %>
       <% down_option = option.downcase %>
       <% if down_option == 'color' %>
-        <% color = variant.options[forloop_count] %>
+        <% color = variant["options"][forloop_count] %>
       <% elsif down_option == 'size' %>
-        <% size = variant.options[forloop_count] %>
+        <% size = variant["options"][forloop_count] %>
       <% end %>
       <% forloop_count += 1 %>
     <% end %>
@@ -58,19 +58,19 @@
      
     <item>
     <title><%= product_title.gsub("&", "&amp;") %></title>
-    <link><%= variant.url %></link>
+    <link><%= variant["url"] %></link>
     <description><%= sanitize(product_description).gsub("\n", ' ').gsub("&", "&amp;") %></description>
     <g:google_product_category><%= google_product_category&.gsub("&", "&amp;") %></g:google_product_category>
     <g:item_group_id>shopify_<%= country_code %>_<%= product.shopify_id %></g:item_group_id>
-    <g:id>shopify_<%= country_code %>_<%= product.shopify_id %>_<%= variant.shopify_id %></g:id>
+    <g:id>shopify_<%= country_code %>_<%= product.shopify_id %>_<%= variant["shopify_id"] %></g:id>
     <g:condition>new</g:condition>
-    <g:price><%= variant.price %></g:price>
-    <g:availability><% if variant.available %>in stock<% else %>out of stock<% end %></g:availability>
-    <g:image_link>http:<% if variant.image_src %><%= variant.image_src %><% else %><%= product.featured_image %><% end %></g:image_link>
-    <g:gtin><%= variant.barcode %></g:gtin>
-    <g:brand><%= product.vendor %></g:brand>
-    <g:mpn><%= variant.sku %></g:mpn>
-    <g:product_type><%= product.shopify_type %></g:product_type>
+    <g:price><%= variant["price"] %></g:price>
+    <g:availability><% if variant["available"] %>in stock<% else %>out of stock<% end %></g:availability>
+    <g:image_link>http:<% if variant["image_src"] %><%= variant["image_src"] %><% else %><%= product.featured_image %><% end %></g:image_link>
+    <g:gtin><%= variant["barcode"] %></g:gtin>
+    <g:brand><%= product["vendor"] %></g:brand>
+    <g:mpn><%= variant["sku"] %></g:mpn>
+    <g:product_type><%= product["shopify_type"] %></g:product_type>
     <g:age_group><%= age_group %></g:age_group>
     <% unless color == "" %><g:color><%= sanitize(color).gsub("\n", ' ').gsub("&", "&amp;") %></g:color><% end %>
     <% unless size == "" %><g:size><%= sanitize(size).gsub("\n", ' ').gsub("&", "&amp;") %></g:size><g:size_system>US</g:size_system><% end %>
@@ -81,7 +81,7 @@
     <g:custom_label_3><%= product.custom_label_3 %></g:custom_label_3>
     <g:custom_label_4><%= product.custom_label_4 %></g:custom_label_4>
      
-    <g:shipping_weight><%= variant.weight %> <%= variant.weight_unit %></g:shipping_weight>
+    <g:shipping_weight><%= variant["weight"] %> <%= variant["weight_unit"] %></g:shipping_weight>
     </item>
    
   <% end %>

@@ -10,6 +10,7 @@ module TascPepperjam
   class Application < Rails::Application
     require 'json'
     require 'openssl'
+    require 'nokogiri'
     require 'open-uri'
     require 'base64'
     require 'csv'
