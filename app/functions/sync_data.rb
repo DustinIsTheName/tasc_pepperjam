@@ -92,7 +92,7 @@ class SyncData
           variant["url"] = '/products/' + shopify_product.handle + '?variant=' + shopify_variant.id.to_s
           variant["options"] = variant_options
           variant["price"] = shopify_variant.price
-          variant["available"] = shopify_variant.inventory_policy == "continue" or shopify_variant.inventory_quantity > 0
+          variant["available"] = (shopify_variant.inventory_policy == "continue" or shopify_variant.inventory_quantity > 0)
           variant["image_src"] = shopify_product.images.select{|i| i.id == shopify_variant.image_id}.first&.src
           variant["barcode"] = shopify_variant.barcode
           variant["sku"] = shopify_variant.sku
